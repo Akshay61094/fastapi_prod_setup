@@ -33,4 +33,4 @@ jobs:
         docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
     - name: Restart Container App (to use latest image)
       run: |
-        az containerapp update --name ${{ env.CONTAINERAPP_NAME }} --environment ${{ env.ENV_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest --registry-server ${{ env.ACR_NAME }}.azurecr.io --registry-username ${{ secrets.ACR_USERNAME }} --registry-password ${{ secrets.ACR_PASSWORD }}
+        az containerapp update --name $CONTAINERAPP_NAME --resource-group $RESOURCE_GROUP --image $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
