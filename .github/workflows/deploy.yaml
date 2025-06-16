@@ -1,0 +1,39 @@
+name: Deploy to Azure Container App - DEV
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  ACR_NAME: fastapiacrakshay
+  RESOURCE_GROUP: rg-fastapi-dev
+  CONTAINERAPP_NAME: fastapi-app-dev
+  IMAGE_NAME: fastapi-hello
+  LOCATION: eastus
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:latest .
+        echo "${{ secrets.ACR_PASSWORD }}" | docker login $ACR_NAME.azurecr.io -u ${{ secrets.ACR_USERNAME }} --password-stdin
+        docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
+
+    - name: Deploy to Azure Container Apps
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        appName: ${{ env.CONTAINERAPP_NAME }}
+        resourceGroup: ${{ env.RESOURCE_GROUP }}
+        imageToDeploy: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
