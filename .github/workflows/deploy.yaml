@@ -40,3 +40,6 @@ jobs:
         resourceGroup: ${{ env.RESOURCE_GROUP }}
         imageToDeploy: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
         location : eastus
+        registryUrl: ${{ env.ACR_NAME }}.azurecr.io
+        registryUsername: ${{ secrets.ACR_USERNAME }}
+        registryPassword: ${{ secrets.ACR_PASSWORD }}
