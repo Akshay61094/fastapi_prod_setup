@@ -9,6 +9,7 @@ env:
   ACR_NAME: fastapiacrakshay
   RESOURCE_GROUP: rg-fastapi-dev
   CONTAINERAPP_NAME: fastapi-app-dev
+  ENV_NAME: fastapi-env-dev
   IMAGE_NAME: fastapi-hello
   LOCATION: eastus
 
@@ -35,5 +36,6 @@ jobs:
       uses: azure/container-apps-deploy-action@v1
       with:
         appName: ${{ env.CONTAINERAPP_NAME }}
+        containerAppEnvironment: ${{ env.ENV_NAME }}
         resourceGroup: ${{ env.RESOURCE_GROUP }}
         imageToDeploy: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
