@@ -35,7 +35,7 @@ jobs:
     - name: Deploy to Azure Container Apps
       uses: azure/container-apps-deploy-action@v1
       with:
-        appName: ${{ env.CONTAINERAPP_NAME }}
+        containerAppName: ${{ env.CONTAINERAPP_NAME }}
         containerAppEnvironment: ${{ env.ENV_NAME }}
         resourceGroup: ${{ env.RESOURCE_GROUP }}
         imageToDeploy: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
